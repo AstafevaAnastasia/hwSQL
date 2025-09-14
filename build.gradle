@@ -1,0 +1,47 @@
+plugins {
+    id 'java'
+}
+
+group 'ru.netology'
+version '1.0-SNAPSHOT'
+
+sourceCompatibility = 11
+
+// кодировка файлов (если используете русский язык в файлах)
+compileJava.options.encoding = "UTF-8"
+compileTestJava.options.encoding = "UTF-8"
+
+repositories {
+    mavenCentral()
+}
+
+dependencies {
+    testImplementation 'org.junit.jupiter:junit-jupiter:5.10.2'
+    testImplementation 'com.codeborne:selenide:6.19.1'
+    testRuntimeOnly 'org.junit.platform:junit-platform-launcher'
+    implementation 'mysql:mysql-connector-java:8.0.33'
+}
+
+test {
+    useJUnitPlatform()
+    // в тестах, вызывая `gradlew test -Dselenide.headless=true` будем передавать этот параметр в JVM (где его подтянет Selenide)
+    // свойство selenide.headless используется в проектах на основе Selenide для передачи значения параметра в JVM
+    systemProperty 'selenide.headless', System.getProperty('selenide.headless')
+    // свойство chromeoptions.prefs используется для задания настроек браузера в проектах на основе Selenide, выключаем менеджер паролей
+    systemProperty 'chromeoptions.prefs', System.getProperty('chromeoptions.prefs', "profile.password_manager_leak_detection=false")
+}
+
+task clearDB(type: Exec) {
+    commandLine 'C:\\Program Files\\MySQL\\MySQL Server 8.0\\bin\\mysql.exe', '-u', 'app', '-ppass', 'app', '-e', 'DELETE FROM cards; DELETE FROM auth_codes; DELETE FROM users;'
+}
+
+task startSUT(dependsOn: 'clearDB') {
+    doLast {
+        exec {
+            commandLine 'java', '-jar', 'artifacts/app-deadline.jar',
+                    '-P:jdbc.url=jdbc:mysql://localhost:3306/app?serverTimezone=UTC',
+                    '-P:jdbc.user=app',
+                    '-P:jdbc.password=pass'
+        }
+    }
+}
