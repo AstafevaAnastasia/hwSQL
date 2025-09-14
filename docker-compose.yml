@@ -11,4 +11,3 @@ services:
       - "3306:3306"
     volumes:
       - ./schema.sql:/docker-entrypoint-initdb.d/1-schema.sql
-      - ./init-db.sql:/docker-entrypoint-initdb.d/2-init-db.sql
