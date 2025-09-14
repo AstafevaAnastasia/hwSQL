@@ -30,18 +30,3 @@ test {
     // свойство chromeoptions.prefs используется для задания настроек браузера в проектах на основе Selenide, выключаем менеджер паролей
     systemProperty 'chromeoptions.prefs', System.getProperty('chromeoptions.prefs', "profile.password_manager_leak_detection=false")
 }
-
-task clearDB(type: Exec) {
-    commandLine 'C:\\Program Files\\MySQL\\MySQL Server 8.0\\bin\\mysql.exe', '-u', 'app', '-ppass', 'app', '-e', 'DELETE FROM cards; DELETE FROM auth_codes; DELETE FROM users;'
-}
-
-task startSUT(dependsOn: 'clearDB') {
-    doLast {
-        exec {
-            commandLine 'java', '-jar', 'artifacts/app-deadline.jar',
-                    '-P:jdbc.url=jdbc:mysql://localhost:3306/app?serverTimezone=UTC',
-                    '-P:jdbc.user=app',
-                    '-P:jdbc.password=pass'
-        }
-    }
-}
