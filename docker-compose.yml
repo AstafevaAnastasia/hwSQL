@@ -14,6 +14,7 @@ services:
       - "3306:3306"
     volumes:
       - ./schema.sql:/docker-entrypoint-initdb.d/schema.sql
+      - mysql-data:/var/lib/mysql  # Добавляем volume для данных
     command: --default-authentication-plugin=mysql_native_password
 
   sut:
@@ -31,3 +32,6 @@ services:
       - ./artifacts/app-deadline.jar:/app/app-deadline.jar
     working_dir: /app
     command: ["java", "-jar", "app-deadline.jar"]
+
+volumes:
+  mysql-data:
