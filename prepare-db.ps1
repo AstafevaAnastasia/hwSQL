@@ -1,8 +1,8 @@
 Write-Host "Остановка контейнеров..."
-docker-compose down -v
+docker compose down -v
 
 Write-Host "Запуск MySQL..."
-docker-compose up -d mysql
+docker compose up -d mysql
 
 Write-Host "Ожидание инициализации MySQL..."
 Start-Sleep -Seconds 15
