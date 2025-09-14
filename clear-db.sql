@@ -1,0 +1,8 @@
+USE app;
+
+SET FOREIGN_KEY_CHECKS = 0;
+DELETE FROM auth_codes;
+DELETE FROM card_transactions;
+DELETE FROM cards;
+DELETE FROM users;
+SET FOREIGN_KEY_CHECKS = 1;
