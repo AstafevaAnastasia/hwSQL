@@ -9,10 +9,7 @@ public class DashboardPage {
     private SelenideElement heading = $("h2");
 
     public DashboardPage() {
+        heading.shouldBe(visible);
         heading.shouldHave(text("Личный кабинет"));
-    }
-
-    public String getHeadingText() {
-        return heading.text();
     }
 }

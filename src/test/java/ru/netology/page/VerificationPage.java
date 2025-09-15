@@ -1,7 +1,6 @@
 package ru.netology.page;
 
 import com.codeborne.selenide.SelenideElement;
-import ru.netology.data.DataHelper;
 
 import static com.codeborne.selenide.Condition.*;
 import static com.codeborne.selenide.Selenide.*;
@@ -15,23 +14,28 @@ public class VerificationPage {
         codeField.shouldBe(visible);
     }
 
-    // Ввод кода верификации
-    public DashboardPage validVerify(String verificationCode) {
+    // Общий метод для ввода кода и клика
+    private void verifyCode(String verificationCode) {
         codeField.setValue(verificationCode);
         verifyButton.click();
+    }
+
+    // Ввод кода верификации
+    public DashboardPage validVerify(String verificationCode) {
+        verifyCode(verificationCode);
         return new DashboardPage();
     }
 
     // Ввод невалидного кода
     public VerificationPage invalidVerify(String verificationCode) {
-        codeField.setValue(verificationCode);
-        verifyButton.click();
+        verifyCode(verificationCode);
         return this;
     }
 
-    // Проверка ошибки
-    public VerificationPage verifyErrorNotification() {
+    // Проверка ошибки с текстом сообщения
+    public VerificationPage verifyErrorNotification(String expectedText) {
         errorNotification.shouldBe(visible);
+        errorNotification.shouldHave(text(expectedText));
         return this;
     }
 }

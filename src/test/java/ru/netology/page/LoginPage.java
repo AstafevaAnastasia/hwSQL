@@ -17,25 +17,22 @@ public class LoginPage {
         loginField.shouldBe(visible);
     }
 
-    // Вход с валидными данными
-    public VerificationPage validLogin(DataHelper.AuthInfo info) {
+    // Общий метод для ввода данных и клика
+    private void login(DataHelper.AuthInfo info) {
         loginField.setValue(info.getLogin());
         passwordField.setValue(info.getPassword());
         loginButton.click();
+    }
+
+    // Вход с валидными данными
+    public VerificationPage validLogin(DataHelper.AuthInfo info) {
+        login(info);
         return new VerificationPage();
     }
 
     // Вход с невалидными данными
     public LoginPage invalidLogin(DataHelper.AuthInfo info) {
-        loginField.setValue(info.getLogin());
-        passwordField.setValue(info.getPassword());
-        loginButton.click();
-        return this;
-    }
-
-    // Проверка отображения ошибки
-    public LoginPage verifyErrorNotificationVisible() {
-        errorNotification.shouldBe(visible);
+        login(info);
         return this;
     }
 
@@ -50,8 +47,9 @@ public class LoginPage {
         return this;
     }
 
-    // Проверка текста ошибки
+    // Проверка текста ошибки (автоматически проверяет видимость)
     public LoginPage verifyErrorText(String text) {
+        errorNotification.shouldBe(visible);
         errorNotification.shouldHave(text(text));
         return this;
     }
