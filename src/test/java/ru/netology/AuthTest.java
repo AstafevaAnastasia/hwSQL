@@ -31,8 +31,6 @@ public class AuthTest {
 
         String verificationCode = DbHelper.getLatestVerificationCode();
         DashboardPage dashboardPage = verificationPage.validVerify(verificationCode);
-
-        assertNotNull(dashboardPage);
     }
 
     @Test

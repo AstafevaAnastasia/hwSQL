@@ -30,24 +30,22 @@ public class LoginPage {
         return new VerificationPage();
     }
 
-    // Вход с невалидными данными
+    // Вход с невалидными данными с очисткой полей
     public LoginPage invalidLogin(DataHelper.AuthInfo info) {
+        loginField.clear();
+        passwordField.clear();
         login(info);
         return this;
     }
 
     // Закрытие уведомления
     public LoginPage closeNotification() {
-        try {
-            closeButton.click();
-            errorNotification.shouldBe(hidden);
-        } catch (Exception e) {
-            // Если кнопки закрытия нет, просто продолжаем
-        }
+        closeButton.click();
+        errorNotification.shouldBe(hidden);
         return this;
     }
 
-    // Проверка текста ошибки (автоматически проверяет видимость)
+    // Проверка текста ошибки
     public LoginPage verifyErrorText(String text) {
         errorNotification.shouldBe(visible);
         errorNotification.shouldHave(text(text));
