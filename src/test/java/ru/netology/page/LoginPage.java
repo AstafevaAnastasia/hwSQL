@@ -32,8 +32,11 @@ public class LoginPage {
 
     // Вход с невалидными данными с очисткой полей
     public LoginPage invalidLogin(DataHelper.AuthInfo info) {
-        loginField.clear();
-        passwordField.clear();
+        // Очистка полей через выделение и удаление (Ctrl+A + Backspace)
+        loginField.doubleClick();
+        loginField.sendKeys("\b");
+        passwordField.doubleClick();
+        passwordField.sendKeys("\b");
         login(info);
         return this;
     }

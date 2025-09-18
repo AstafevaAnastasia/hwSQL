@@ -38,14 +38,9 @@ public class AuthTest {
         DataHelper.AuthInfo invalidUser = DataHelper.getInvalidAuthInfo();
         LoginPage loginPage = new LoginPage();
 
-        // Act & Assert
         for (int i = 0; i < 3; i++) {
             loginPage = loginPage.invalidLogin(invalidUser)
                     .verifyErrorText("Ошибка! Неверно указан логин или пароль");
-
-            if (i < 2) {
-                loginPage.closeNotification();
-            }
         }
 
         loginPage.verifyErrorText("Система заблокирована");
